@@ -1,35 +1,55 @@
-# 🐞 BugZero AI – Code Analyzer & Bug Finder
+# 🐞 BugZero AI | Pro IDE
 
-BugZero AI is an **AI-powered code analysis tool** that detects bugs, explains issues, and generates improved code automatically.
+![Python](https://img.shields.io/badge/Python-3.10-blue)
+![Flask](https://img.shields.io/badge/Flask-Web%20Framework-green)
+![AI](https://img.shields.io/badge/AI-Groq%20LLM-orange)
+![Testing](https://img.shields.io/badge/Testing-TestSprite-purple)
+![License](https://img.shields.io/badge/License-MIT-lightgrey)
 
-It helps developers quickly understand errors in their code and learn how to fix them using AI.
+BugZero AI is an **AI-powered code analysis platform** that helps developers detect bugs, understand issues, and generate improved code automatically.
 
-This project was built for the **TestSprite AI Dev Hackathon**.
+It provides an interactive **browser-based IDE** where users can write code, run programs, and receive AI-driven debugging insights.
+
+Built for the **TestSprite AI Dev Hackathon**.
 
 ---
 
 # 🚀 Features
 
-* 🔍 **AI Code Analysis** – Detect bugs and logical issues
-* 💡 **Bug Explanation** – Understand why the error occurs
-* 🛠 **Fix Suggestions** – AI recommends solutions
-* 🧠 **Improved Code Output** – Generates corrected code
-* ▶ **Code Runner** – Execute code directly in the browser
-* 🧪 **Automated Tests** – Tests generated using TestSprite MCP
+* 🔍 **AI Bug Detection** – Automatically identifies coding mistakes
+* 💡 **Technical Explanation** – Explains why the bug occurs
+* 🛠 **Auto Fix Suggestions** – Provides corrected code
+* ▶ **Integrated Code Runner** – Run code directly in the browser
+* 🌐 **Multi-language Support** – Python & Java
+* 🧪 **Automated Testing** – Test cases generated using TestSprite MCP
+
+---
+
+# 🎬 Demo
+
+## Python Bug Analysis
+
+![Python Demo](python-demo.png)
+
+---
+
+## Java Bug Analysis
+
+![Java Demo](java-demo.png)
 
 ---
 
 # 🧠 How It Works
 
-1. User pastes code into the web editor
-2. The backend sends the code to an AI model
-3. The AI analyzes the code and detects bugs
-4. BugZero returns:
+1️⃣ Write code in the **BugZero editor**
+2️⃣ Click **Analyze**
+3️⃣ Code is sent to the **Groq LLM API**
+4️⃣ AI returns:
 
-   * Bug description
-   * Explanation
-   * Fix recommendation
-   * Improved code
+* Bug detection
+* Explanation
+* Suggested fix
+* Improved code
 
 ---
 
@@ -46,9 +66,9 @@ This project was built for the **TestSprite AI Dev Hackathon**.
 * Python
 * Flask
 
-### AI Model
+### AI
 
-* Groq API (LLaMA 3.1)
+* Groq API (LLaMA model)
 
 ### Testing
 
@@ -58,7 +78,7 @@ This project was built for the **TestSprite AI Dev Hackathon**.
 
 # 📂 Project Structure
 
-```
+```id="q3r0vo"
 bugzero-ai-code-analyzer
 │
 ├── app.py
@@ -66,15 +86,12 @@ bugzero-ai-code-analyzer
 ├── requirements.txt
 ├── README.md
 │
+├── python-demo.png
+├── java-demo.png
+│
 └── testsprite_tests
     └── api_test.js
 ```
-
----
-
-# 🖥 Demo Screenshot
-
-![BugZero Screenshot](screenshot.png)
 
 ---
 
@@ -82,31 +99,31 @@ bugzero-ai-code-analyzer
 
 Clone the repository:
 
-```
+```id="o46cav"
 git clone https://github.com/ganeshark04/bugzero-ai-code-analyzer
 ```
 
-Navigate into the project folder:
+Navigate to project folder:
 
-```
+```id="oq0m8g"
 cd bugzero-ai-code-analyzer
 ```
 
 Install dependencies:
 
-```
+```id="h37mpk"
 pip install -r requirements.txt
 ```
 
 Run the application:
 
-```
+```id="j7gx3y"
 python app.py
 ```
 
 Open in browser:
 
-```
+```id="23xvab"
 http://127.0.0.1:5000
 ```
 
@@ -114,19 +131,19 @@ http://127.0.0.1:5000
 
 # 🧪 Testing
 
-This project uses **TestSprite MCP** to generate automated test cases.
+This project integrates **TestSprite MCP** for automated test generation.
 
-All generated tests are located inside:
+Generated tests are located in:
 
-```
+```id="p1p6qk"
 testsprite_tests/
 ```
 
-Test categories include:
+These tests validate:
 
-* API testing
-* UI interaction testing
-* Edge case validation
+* API endpoints
+* UI interactions
+* Edge cases
 
 ---
 
@@ -134,7 +151,7 @@ Test categories include:
 
 ### Input Code
 
-```python
+```python id="vnpv3j"
 def divide(a,b):
     return a/b
 
@@ -143,26 +160,18 @@ print(divide(10,0))
 
 ### AI Output
 
-BUG: Division by zero.
+BUG: Division by zero
 
 WHY: The function does not check if the divisor is zero.
 
-FIX: Add validation before division.
-
 FIXED CODE:
 
-```python
+```python id="sj9jqq"
 def divide(a,b):
     if b == 0:
         raise ValueError("Cannot divide by zero")
     return a/b
 ```
-
----
-
-# 📌 Hackathon Submission
-
-This project was developed for the **TestSprite AI Dev Hackathon** to demonstrate how AI can improve software quality by automatically detecting bugs and generating fixes.
 
 ---
 
