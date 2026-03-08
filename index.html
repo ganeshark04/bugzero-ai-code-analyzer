@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>BugZero AI | Pro Multi-IDE</title>
+    
+    <!-- CodeMirror Assets -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/theme/dracula.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/mode/python/python.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/mode/clike/clike.min.js"></script>
+
+    <!-- UI Enhancements -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/tokyo-night-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+
+    <style>
+        :root { --bg: #020617; --panel: #0f172a; --accent: #38bdf8; --text: #f8fafc; }
+        body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', sans-serif; margin: 0; padding: 20px; height: 100vh; display: flex; flex-direction: column; box-sizing: border-box; }
+        .ide-container { display: flex; gap: 20px; flex-grow: 1; overflow: hidden; }
+        .panel { background: var(--panel); border: 1px solid #334155; border-radius: 12px; flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+        .panel-header { background: #1e293b; padding: 10px 15px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #334155; }
+        .CodeMirror { height: 100% !important; font-family: 'Fira Code', monospace; font-size: 15px; }
+        .console { background: #000; height: 180px; border-top: 2px solid #334155; padding: 10px; font-family: monospace; color: #a3be8c; overflow-y: auto; white-space: pre-wrap; font-size: 14px; }
+        button { border: none; padding: 7px 15px; border-radius: 6px; cursor: pointer; font-weight: bold; transition: 0.2s; }
+        .run-btn { background: #10b981; color: white; }
+        .analyze-btn { background: var(--accent); color: #000; }
+        #resultContainer { padding: 20px; overflow-y: auto; flex-grow: 1; }
+        #resultContainer pre { background: #1a1b26; padding: 40px 15px 15px; border-radius: 8px; position: relative; border: 1px solid #334155; }
+        .apply-btn { position: absolute; top: 10px; right: 10px; background: #10b981; color: white; padding: 5px 10px; font-size: 12px; border: none; border-radius: 4px; cursor: pointer; }
+        select { background: #1e293b; color: white; border: 1px solid var(--accent); padding: 4px; border-radius: 4px; outline: none; }
+    </style>
+</head>
+<body>
+
+    <h2 style="text-align:center; color:var(--accent); margin-bottom:15px;">🐞 BugZero AI | Pro IDE</h2>
+
+    <div class="ide-container">
+        <!-- Editor Panel -->
+        <div class="panel">
+            <div class="panel-header">
+                <select id="langSelect" onchange="changeLang()">
+                    <option value="python">Python</option>
+                    <option value="java">Java</option>
+                </select>
+                <div>
+                    <button class="run-btn" onclick="runCode()">▶ Run</button>
+                    <button id="abtn" class="analyze-btn" onclick="analyzeCode()">🔍 Analyze</button>
+                </div>
+            </div>
+            <div style="flex-grow:1;"><textarea id="editor"></textarea></div>
+            <div class="console" id="console">Console: Ready.</div>
+        </div>
+
+        <!-- AI Panel -->
+        <div class="panel">
+            <div class="panel-header">AI Technical Analysis</div>
+            <div id="resultContainer">
+                <p style="color:#94a3b8; text-align:center; margin-top:50px;">Select language and paste code to begin.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const templates = {
+            python: "def main():\n    name = \"Gagan\"\n    print(\"Hello \" + user) # Error: user not defined\n\nmain()",
+            java: "import java.util.*;\n\npublic class Main {\n    public static void main(String[] args) {\n        String name = \"Gagan\";\n        System.out.println(\"Hello \" + user); // Error: user not defined\n    }\n}"
+        };
+
+        var editor = CodeMirror.fromTextArea(document.getElementById("editor"), {
+            mode: "python", theme: "dracula", lineNumbers: true, autoCloseBrackets: true, indentUnit: 4
+        });
+        editor.setValue(templates.python);
+
+        function changeLang() {
+            const lang = document.getElementById("langSelect").value;
+            editor.setOption("mode", lang === "python" ? "python" : "text/x-java");
+            editor.setValue(templates[lang]);
+            document.getElementById("console").innerText = "Switched to " + lang.toUpperCase();
+        }
+
+        async function runCode() {
+            const out = document.getElementById("console");
+            out.style.color = "#a3be8c";
+            out.innerText = "Running...";
+            
+            try {
+                const res = await fetch("/run", {
+                    method: "POST",
+                    headers: {"Content-Type":"application/json"},
+                    body: JSON.stringify({
+                        code: editor.getValue(), 
+                        language: document.getElementById("langSelect").value
+                    })
+                });
+                const data = await res.json();
+                if(data.output.includes("Error") || data.output.includes("Exception")) out.style.color = "#ef4444";
+                out.innerText = data.output;
+            } catch(e) {
+                out.innerText = "Connection Error.";
+            }
+        }
+
+        async function analyzeCode() {
+            const btn = document.getElementById("abtn");
+            const resBox = document.getElementById("resultContainer");
+            btn.innerText = "Thinking...";
+            btn.disabled = true;
+            resBox.innerHTML = "AI is scanning code logic...";
+            
+            try {
+                const res = await fetch("/analyze", {
+                    method: "POST",
+                    headers: {"Content-Type":"application/json"},
+                    body: JSON.stringify({
+                        code: editor.getValue(), 
+                        language: document.getElementById("langSelect").value
+                    })
+                });
+                const data = await res.json();
+                resBox.innerHTML = marked.parse(data.result);
+                hljs.highlightAll();
+
+                // Inject Apply Fix buttons
+                resBox.querySelectorAll('pre').forEach(pre => {
+                    const b = document.createElement('button');
+                    b.className = 'apply-btn'; b.innerText = '✨ Apply Fix';
+                    b.onclick = () => { 
+                        editor.setValue(pre.querySelector('code').innerText);
+                        b.innerText = "✅ Applied";
+                        setTimeout(() => b.innerText = "✨ Apply Fix", 2000);
+                    };
+                    pre.appendChild(b);
+                });
+            } catch(e) {
+                resBox.innerHTML = "Error connecting to AI service.";
+            } finally {
+                btn.innerText = "🔍 Analyze";
+                btn.disabled = false;
+            }
+        }
+    </script>
+</body>
+</html>
