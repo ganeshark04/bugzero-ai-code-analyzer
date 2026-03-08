@@ -1,14 +1,14 @@
 # 🐞 BugZero AI | Pro IDE
 
 ![Python](https://img.shields.io/badge/Python-3.10-blue)
-![Flask](https://img.shields.io/badge/Flask-Web%20Framework-green)
+![Flask](https://img.shields.io/badge/Backend-Flask-green)
 ![AI](https://img.shields.io/badge/AI-Groq%20LLM-orange)
 ![Testing](https://img.shields.io/badge/Testing-TestSprite-purple)
 ![License](https://img.shields.io/badge/License-MIT-lightgrey)
 
 BugZero AI is an **AI-powered code analysis platform** that helps developers detect bugs, understand issues, and generate improved code automatically.
 
-It provides an interactive **browser-based IDE** where users can write code, run programs, and receive AI-driven debugging insights.
+It provides a **browser-based coding IDE** where developers can write code, execute it, and receive **AI-driven debugging insights instantly**.
 
 Built for the **TestSprite AI Dev Hackathon**.
 
@@ -16,40 +16,47 @@ Built for the **TestSprite AI Dev Hackathon**.
 
 # 🚀 Features
 
-* 🔍 **AI Bug Detection** – Automatically identifies coding mistakes
+* 🔍 **AI Bug Detection** – Automatically detects coding errors
 * 💡 **Technical Explanation** – Explains why the bug occurs
 * 🛠 **Auto Fix Suggestions** – Provides corrected code
-* ▶ **Integrated Code Runner** – Run code directly in the browser
-* 🌐 **Multi-language Support** – Python & Java
+* ▶ **Code Runner** – Execute code directly in the browser
+* 🌐 **Multi-Language Support** – Python & Java
 * 🧪 **Automated Testing** – Test cases generated using TestSprite MCP
 
 ---
 
-# 🎬 Demo
+# 🖥 Demo
 
-## Python Bug Analysis
+## Python Code Analysis
 
-![Python Demo](python-demo.png)
+<p align="center">
+  <img src="screenshot1.png" width="900">
+</p>
 
 ---
 
-## Java Bug Analysis
+## Java Code Analysis
 
-![Java Demo](java-demo.png)
+<p align="center">
+  <img src="screenshot2.png" width="900">
+</p>
 
 ---
 
 # 🧠 How It Works
 
-1️⃣ Write code in the **BugZero editor**
+1️⃣ User writes code in the **BugZero editor**
+
 2️⃣ Click **Analyze**
-3️⃣ Code is sent to the **Groq LLM API**
+
+3️⃣ Backend sends the code to **Groq LLM**
+
 4️⃣ AI returns:
 
 * Bug detection
 * Explanation
-* Suggested fix
-* Improved code
+* Fixed code
+* Improved version
 
 ---
 
@@ -66,9 +73,9 @@ Built for the **TestSprite AI Dev Hackathon**.
 * Python
 * Flask
 
-### AI
+### AI Model
 
-* Groq API (LLaMA model)
+* Groq LLaMA API
 
 ### Testing
 
@@ -78,7 +85,7 @@ Built for the **TestSprite AI Dev Hackathon**.
 
 # 📂 Project Structure
 
-```id="q3r0vo"
+```
 bugzero-ai-code-analyzer
 │
 ├── app.py
@@ -86,44 +93,44 @@ bugzero-ai-code-analyzer
 ├── requirements.txt
 ├── README.md
 │
-├── python-demo.png
-├── java-demo.png
+├── screenshot1.png
+├── screenshot2.png
 │
 └── testsprite_tests
-    └── api_test.js
+     └── api_test.js
 ```
 
 ---
 
 # ⚙ Installation
 
-Clone the repository:
+Clone the repository
 
-```id="o46cav"
+```
 git clone https://github.com/ganeshark04/bugzero-ai-code-analyzer
 ```
 
-Navigate to project folder:
+Go to project folder
 
-```id="oq0m8g"
+```
 cd bugzero-ai-code-analyzer
 ```
 
-Install dependencies:
+Install dependencies
 
-```id="h37mpk"
+```
 pip install -r requirements.txt
 ```
 
-Run the application:
+Run the application
 
-```id="j7gx3y"
+```
 python app.py
 ```
 
-Open in browser:
+Open browser
 
-```id="23xvab"
+```
 http://127.0.0.1:5000
 ```
 
@@ -131,17 +138,17 @@ http://127.0.0.1:5000
 
 # 🧪 Testing
 
-This project integrates **TestSprite MCP** for automated test generation.
+This project integrates **TestSprite MCP** to generate automated tests.
 
-Generated tests are located in:
+Generated tests are stored inside:
 
-```id="p1p6qk"
+```
 testsprite_tests/
 ```
 
-These tests validate:
+Tests cover:
 
-* API endpoints
+* API validation
 * UI interactions
 * Edge cases
 
@@ -151,7 +158,7 @@ These tests validate:
 
 ### Input Code
 
-```python id="vnpv3j"
+```python
 def divide(a,b):
     return a/b
 
@@ -162,11 +169,11 @@ print(divide(10,0))
 
 BUG: Division by zero
 
-WHY: The function does not check if the divisor is zero.
+WHY: The function does not validate if the divisor is zero.
 
 FIXED CODE:
 
-```python id="sj9jqq"
+```python
 def divide(a,b):
     if b == 0:
         raise ValueError("Cannot divide by zero")
