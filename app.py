@@ -20,7 +20,7 @@ API_KEY = os.getenv("GROQ_API_KEY")
 client = Groq(api_key=API_KEY)
 
 def open_browser():
-    webbrowser.open("http://127.0.0.1:5000")
+    webbrowser.open("http://127.0.0.1:3000")
 
 @app.route("/")
 def home():
@@ -115,7 +115,7 @@ def analyze_code():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
+
 if __name__ == "__main__":
-    if os.environ.get("WERKZEUG_RUN_MAIN") == "true":
-        Timer(1.5, open_browser).start()
-    app.run(debug=True, port=5000)
+    port = int(os.environ.get("PORT", 3000))
+    app.run(host="0.0.0.0", port=port)
